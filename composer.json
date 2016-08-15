@@ -35,13 +35,15 @@
     "autoload": {
         "psr-4": {
             "CodingMatters\\Rest\\": "module/Rest/src/",
-            "CodingMatters\\Student\\": "module/Student/src/"
+            "CodingMatters\\Student\\": "module/Student/src/",
+            "CodingMatters\\Employee\\": "module/Employee/src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
             "CodingMatters\\RestTest\\": "module/Rest/test/",
-            "CodingMatters\\StudentTest\\": "module/Student/test/"
+            "CodingMatters\\StudentTest\\": "module/Student/test/",
+            "CodingMatters\\EmployeeTest\\": "module/Employee/test/"
         }
     },
     "scripts": {
