@@ -68,7 +68,7 @@ final class ConfigProvider
     {
         return [
             'invokables' => [
-                Router\RouterInterface::class => Router\FastRouteRouter::class,
+                Router\RouterInterface::class => Router\ZendRouter::class,
                 Helper\ServerUrlHelper::class => Helper\ServerUrlHelper::class,
             ],
             'factories' => [
