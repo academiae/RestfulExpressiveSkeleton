@@ -1,5 +1,5 @@
 {
-    "name": "codingmatters/restful-expressive-skeleton",
+    "name": "academiae/restful-expressive-repository",
     "type": "project",
     "license": "MIT",
     "authors": [
@@ -34,12 +34,14 @@
     },
     "autoload": {
         "psr-4": {
-            "CodingMatters\\Rest\\": "module/Rest/src/"
+            "CodingMatters\\Rest\\": "module/Rest/src/",
+            "CodingMatters\\Student\\": "module/Student/src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "CodingMatters\\RestTest\\": "module/Rest/test/"
+            "CodingMatters\\RestTest\\": "module/Rest/test/",
+            "CodingMatters\\StudentTest\\": "module/Student/test/"
         }
     },
     "scripts": {

@@ -1,0 +1,11 @@
+--- module/Student/src/ConfigProvider.php
++++ PHP_CodeSniffer
+@@ -71,7 +71,7 @@
+                 ],
+                 'middleware'    => [
+                     Controller\MasterListController::class
+-                ]                
++                ]
+             ]
+         ];
+     }
