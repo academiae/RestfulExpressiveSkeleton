@@ -7,8 +7,6 @@ use Zend\Expressive\ConfigManager\ConfigManager;
  */
 $modules = [
     CodingMatters\Rest\ConfigProvider::class,
-    Student\ConfigProvider::class,
-    Employee\ConfigProvider::class,
     //Append module namespace here
 ];
 
