@@ -20,7 +20,7 @@ if (is_file($cachedConfigFile)) {
     $config = include $cachedConfigFile;
 } else {
     // Configuration from loaded modules (including vendor)
-    $config = ArrayUtils::merge($config, require __DIR__ . '/modules.php');
+    $config = ArrayUtils::merge($config, require __DIR__ . '/modules.config.php');
     
     // Load configuration from autoload path
     foreach (Glob::glob('config/autoload/{{,*.}global,{,*.}local}.php', Glob::GLOB_BRACE) as $file) {
