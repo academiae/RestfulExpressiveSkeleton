@@ -1,5 +1,5 @@
 {
-    "name": "academiae/expressive-repository",
+    "name": "codingmatters/restful-expressive-skeleton",
     "type": "project",
     "license": "MIT",
     "authors": [
@@ -34,9 +34,7 @@
     },
     "autoload": {
         "psr-4": {
-            "App\\": "module/App/src/",
-            "Student\\": "module/Student/src/",
-            "Employee\\": "module/Employee/src/"
+            "App\\": "module/App/src/"
         }
     },
     "scripts": {
