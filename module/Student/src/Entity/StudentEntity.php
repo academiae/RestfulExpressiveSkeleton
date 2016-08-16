@@ -47,16 +47,25 @@ final class StudentEntity implements PersonInterface
         $this->last_name        = $lastName;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function getFirstName()
     {
         return $this->first_name;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function getMiddleName()
     {
         return $this->middle_name;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function getLastName()
     {
         return $this->last_name;

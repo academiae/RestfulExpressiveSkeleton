@@ -28,9 +28,18 @@ namespace CodingMatters\Rest\Entity;
 
 interface PersonInterface extends EntityPrototype
 {
+    /**
+     * @return string $first_name
+     */
     public function getFirstName();
 
+    /**
+     * @return string $middle_name
+     */
     public function getMiddleName();
 
+    /**
+     * @return string $last_name
+     */
     public function getLastName();
 }
