@@ -24,24 +24,13 @@
  * THE SOFTWARE.
  */
 
-namespace CodingMatters\Rest\Repository;
+namespace CodingMatters\Rest\Entity;
 
-interface ListRepositoryInterface
+interface PersonInterface extends EntityPrototype
 {
-    /**
-     * Return a set of all entity that we can iterate over.
-     *
-     * Each entry should be a Post instance.
-     *
-     * @return EntityPrototype[]
-     */
-    public function fetchAll();
+    public function getFirstName();
 
-    /**
-     * Return a single entity prototype.
-     *
-     * @param integer $id Identifier of the entity to return.
-     * @return EntityPrototype
-     */
-    public function fetchById($id);
+    public function getMiddleName();
+
+    public function getLastName();
 }

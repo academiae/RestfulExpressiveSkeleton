@@ -26,8 +26,8 @@
 
 namespace CodingMatters\Rest\Controller;
 
-use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Message\ServerRequestInterface as Request;
+use Psr\Http\Message\ResponseInterface as Response;
 use Zend\Diactoros\Response\JsonResponse;
 use Zend\Stratigility\MiddlewareInterface;
 
@@ -35,7 +35,7 @@ abstract class AbstractRestController implements MiddlewareInterface
 {
     const IDENTIFIER_NAME = 'uuid';
 
-    public function __invoke(ServerRequestInterface $request, ResponseInterface $response, callable $out = null)
+    public function __invoke(Request $request, Response $response, callable $out = null)
     {
         $requestMethod = strtoupper($request->getMethod());
         $id = $request->getAttribute(static::IDENTIFIER_NAME);
@@ -64,47 +64,47 @@ abstract class AbstractRestController implements MiddlewareInterface
         };
     }
 
-    public function get(ServerRequestInterface $request, ResponseInterface $response, callable $out = null)
+    public function get(Request $request, Response $response, callable $out = null)
     {
         return $this->createResponse(['content' => 'Method not allowed'], 405);
     }
 
-    public function getList(ServerRequestInterface $request, ResponseInterface $response, callable $out = null)
+    public function getList(Request $request, Response $response, callable $out = null)
     {
         return $this->createResponse(['content' => 'Method not allowed'], 405);
     }
 
-    public function create(ServerRequestInterface $request, ResponseInterface $response, callable $out = null)
+    public function create(Request $request, Response $response, callable $out = null)
     {
         return $this->createResponse(['content' => 'Method not allowed'], 405);
     }
 
-    public function update(ServerRequestInterface $request, ResponseInterface $response, callable $out = null)
+    public function update(Request $request, Response $response, callable $out = null)
     {
         return $this->createResponse(['content' => 'Method not allowed'], 405);
     }
 
-    public function delete(ServerRequestInterface $request, ResponseInterface $response, callable $out = null)
+    public function delete(Request $request, Response $response, callable $out = null)
     {
         return $this->createResponse(['content' => 'Method not allowed'], 405);
     }
 
-    public function deleteList(ServerRequestInterface $request, ResponseInterface $response, callable $out = null)
+    public function deleteList(Request $request, Response $response, callable $out = null)
     {
         return $this->createResponse(['content' => 'Method not allowed'], 405);
     }
 
-    public function head(ServerRequestInterface $request, ResponseInterface $response, callable $out = null)
+    public function head(Request $request, Response $response, callable $out = null)
     {
         return $this->createResponse(['content' => 'Method not allowed'], 405);
     }
 
-    public function options(ServerRequestInterface $request, ResponseInterface $response, callable $out = null)
+    public function options(Request $request, Response $response, callable $out = null)
     {
         return $this->createResponse(['content' => 'Method not allowed'], 405);
     }
 
-    public function patch(ServerRequestInterface $request, ResponseInterface $response, callable $out = null)
+    public function patch(Request $request, Response $response, callable $out = null)
     {
         return $this->createResponse(['content' => 'Method not allowed'], 405);
     }
@@ -112,5 +112,10 @@ abstract class AbstractRestController implements MiddlewareInterface
     final protected function createResponse($data, $status = 200)
     {
         return new JsonResponse($data, $status);
+    }
+    
+    final protected function responsePhraseToCode($responsePhrase)
+    {
+        return strtoupper(str_replace(' ', '_', $responsePhrase));
     }
 }
