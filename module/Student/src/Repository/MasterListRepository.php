@@ -31,7 +31,6 @@ use CodingMatters\Student\Entity\StudentEntity;
 use Zend\Db\Adapter\AdapterInterface;
 use Zend\Db\Sql\Sql;
 use Zend\Db\Adapter\Driver\ResultInterface;
-use Zend\Hydrator\Reflection as ReflectionHydrator;
 use Zend\Hydrator\HydratorInterface;
 use Zend\Db\ResultSet\HydratingResultSet;
 
