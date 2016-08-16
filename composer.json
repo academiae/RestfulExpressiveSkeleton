@@ -24,7 +24,10 @@
         "zendframework/zend-expressive-zendrouter": "^1.2",
         "zendframework/zend-servicemanager": "^3.1",
         "ocramius/proxy-manager": "^2.0",
-        "mtymek/expressive-config-manager": "^1.0 || ~0.4"
+        "mtymek/expressive-config-manager": "^1.0 || ~0.4",
+        
+        "zendframework/zend-db": "^2.8.2",
+        "zendframework/zend-hydrator": "^2.2.1"
     },
     "require-dev": {
         "phpunit/phpunit": "^5.5",
@@ -48,10 +51,12 @@
     },
     "scripts": {
         "post-install-cmd": [
-            "@show-me-the-bugs"
+            "@show-me-the-bugs",
+            "@include-module-config"
         ],
         "post-update-cmd": [
-            "@show-me-the-bugs"
+            "@show-me-the-bugs",
+            "@include-module-config"
         ],
         "show-me-the-bugs": [
             "@cs",
@@ -60,8 +65,10 @@
         ],
         "cs": "phpcs --ignore=/vendor,/build module",
         "cs-fix": "phpcbf --ignore=/vendor,/build module",
-        "serve": "php -S 0.0.0.0:8080 -t public/ public/index.php",
         "cpd": "phpcpd --exclude=/vendor,/build --names-exclude=Module.php,ConfigProvider.php --fuzzy module",
-        "test": "phpunit --verbose"
+        "test": "phpunit --verbose",
+        "include-module-config": [
+            "cp -au module/Student/config/student.local.php.dist config/autoload/student.local.php"
+        ]
     }
 }
