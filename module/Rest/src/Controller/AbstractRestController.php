@@ -61,7 +61,7 @@ abstract class AbstractRestController implements MiddlewareInterface
                 return $this->patch($request, $response, $out);
             default:
                 return $out($request, $response);
-        };
+        }
     }
 
     public function get(ServerRequestInterface $request, ResponseInterface $response, callable $out = null)
