@@ -73,11 +73,7 @@ final class MasterListController extends AbstractRestController
     }
 
     /**
-     *
-     * @param ServerRequestInterface $request
-     * @param ResponseInterface $response
-     * @param callable $out
-     * @return JsonResponse
+     * {@inheritDoc}
      */
     public function getList(Request $request, Response $response, callable $out = null)
     {
