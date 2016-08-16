@@ -41,8 +41,14 @@ final class MasterListRepository implements ListRepositoryInterface
      */
     private $prototype;
 
+    /**
+     * @var AdapterInterface 
+     */
     private $dbAdapter;
 
+    /**
+     * @var HydratorInterface 
+     */
     private $hydrator;
 
     /**
@@ -82,6 +88,11 @@ final class MasterListRepository implements ListRepositoryInterface
         return $this->initializeResult($result);
     }
 
+    /**
+     * 
+     * @param ResultInterface $result
+     * @return HydratingResultSet
+     */
     protected function initializeResult(ResultInterface $result)
     {
         $resultSet = new HydratingResultSet($this->hydrator, $this->prototype);
