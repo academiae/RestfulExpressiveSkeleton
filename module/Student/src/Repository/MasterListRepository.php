@@ -88,21 +88,21 @@ final class MasterListRepository implements ListRepositoryInterface
 
         return $this->initializeResult($result);
     }
-    
+
     public function enlist(array $data)
     {
         $insert = new Insert('students');
-        $insert->values($data);        
+        $insert->values($data);
         $sql = new Sql($this->dbAdapter);
         $statement = $sql->prepareStatementForSqlObject($insert);
-        $result = $statement->execute();        
-       
+        $result = $statement->execute();
+
         if (! $result instanceof ResultInterface) {
             throw new RuntimeException('Database error occurred during insert operation');
         }
-        
+
         $id = $result->getGeneratedValue();
-        
+
         return new StudentEntity(
             $data['student_id'],
             $data['first_name'],
