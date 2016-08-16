@@ -26,32 +26,66 @@
 
 namespace CodingMatters\Student\Repository;
 
-use CodingMatters\Student\Entity\StudentPrototype;
+use CodingMatters\Rest\Repository\ListRepositoryInterface;
+use CodingMatters\Student\Entity\StudentEntity;
+use Zend\Db\Adapter\AdapterInterface;
+use Zend\Db\Sql\Sql;
+use Zend\Db\Adapter\Driver\ResultInterface;
+use Zend\Hydrator\Reflection as ReflectionHydrator;
+use Zend\Hydrator\HydratorInterface;
+use Zend\Db\ResultSet\HydratingResultSet;
 
 final class MasterListRepository implements ListRepositoryInterface
 {
     /**
-     * @var StudentPrototype
+     * @var StudentEntity
      */
     private $prototype;
 
+    private $dbAdapter;
+
+    private $hydrator;
+
     /**
-     * @param StudentPrototype $prototype
+     * @param StudentEntity $prototype
      */
-    public function __construct(StudentPrototype $prototype)
+    public function __construct(AdapterInterface $dbAdapter, HydratorInterface $hydrator, StudentEntity $prototype)
     {
+        $this->dbAdapter = $dbAdapter;
         $this->prototype = $prototype;
+        $this->hydrator  = $hydrator;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function fetchAll()
     {
-        return [['name' => 'Gab']];
+        $sql        = new Sql($this->dbAdapter);
+        $select     = $sql->select('students');
+        $statement  = $sql->prepareStatementForSqlObject($select);
+        $result     = $statement->execute();
+
+        return $this->initializeResult($result);
     }
 
-    public function findById($student_id)
+    /**
+     * {@inheritDoc}
+     */
+    public function fetchById($id)
     {
-        return [
-            'student_id' => $student_id
-        ];
+        $sql       = new Sql($this->dbAdapter);
+        $select    = $sql->select('students');
+        $select->where(['student_id = ?' => $id]);
+        $statement = $sql->prepareStatementForSqlObject($select);
+        $result    = $statement->execute();
+        
+        return $this->initializeResult($result);
+    }
+    
+    protected function initializeResult(ResultInterface $result)
+    {
+        $resultSet = new HydratingResultSet($this->hydrator, $this->prototype);
+        return $resultSet->initialize($result);
     }
 }

@@ -1,0 +1,15 @@
+<?php
+
+return [
+    'db' => [
+        'adapters' => [
+            'student_record' => [
+                'driver'    => '<driver_name>',
+                'database'  => '<database_name>',
+                'username'  => '<username>',
+                'password'  => '<password>'
+            ]
+        ]
+    ]
+];
+

@@ -26,12 +26,13 @@
 
 namespace CodingMatters\Student\Factory\Repository;
 
-use Zend\ServiceManager\Factory\FactoryInterface;
-use Interop\Container\ContainerInterface;
 use CodingMatters\Student\Repository\MasterListRepository;
 use CodingMatters\Student\Entity\StudentEntity;
+use Zend\ServiceManager\Factory\FactoryInterface;
+use Zend\Hydrator\Reflection as ReflectionHydrator;
+use Interop\Container\ContainerInterface;
 
-class MasterListRepositoryFactory implements FactoryInterface
+final class MasterListRepositoryFactory implements FactoryInterface
 {
     /**
      * @param ContainerInterface $container
@@ -41,7 +42,10 @@ class MasterListRepositoryFactory implements FactoryInterface
      */
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
-        $prototype = new StudentEntity();
-        return new MasterListRepository($prototype);
+        $adapter = $container->get('student-record');   
+        $hydrator =  new ReflectionHydrator();
+        $prototype = new StudentEntity();        
+
+        return new MasterListRepository($adapter, $hydrator, $prototype);
     }
 }

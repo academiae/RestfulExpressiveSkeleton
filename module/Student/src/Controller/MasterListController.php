@@ -28,8 +28,8 @@ namespace CodingMatters\Student\Controller;
 
 use CodingMatters\Student\Repository\MasterListRepository;
 use CodingMatters\Rest\Controller\AbstractRestController;
-use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Message\ResponseInterface as Response;
+use Psr\Http\Message\ServerRequestInterface as Request;
 use Zend\Diactoros\Response\JsonResponse;
 
 final class MasterListController extends AbstractRestController
@@ -37,14 +37,14 @@ final class MasterListController extends AbstractRestController
     /**
      * @var MasterListRepository
      */
-    private $studentRepository;
+    private $repository;
 
     /**
      * @param MasterListRepository $repository
      */
     public function __construct(MasterListRepository $repository)
     {
-        $this->studentRepository = $repository;
+        $this->repository = $repository;
     }
 
     /**
@@ -54,10 +54,26 @@ final class MasterListController extends AbstractRestController
      * @param callable $out
      * @return JsonResponse
      */
-    public function get(ServerRequestInterface $request, ResponseInterface $response, callable $out = null)
+    public function get(Request $request, Response $response, callable $out = null)
     {
         $id = $request->getAttribute(self::IDENTIFIER_NAME);
-        return $this->createResponse($this->studentRepository->findById($id));
+        $student = $this->repository->fetchById($id);        
+
+        if ($student->count() > 0) {
+            return $this->createResponse(['student' => $student->toArray()]);
+        }
+        
+        // Throw error message if id is missing
+        $status         = 404;
+        $notFound       = 'Not Found';        
+        $error_message  = sprintf("Student with id '%s' {$notFound}.",$id);
+        $data = [
+            'error'     => $this->responsePhraseToCode($notFound),
+            'message'   => $error_message,
+            'status'    => $status
+        ];
+
+        return $this->createResponse($data, $status);
     }
 
     /**
@@ -67,10 +83,9 @@ final class MasterListController extends AbstractRestController
      * @param callable $out
      * @return JsonResponse
      */
-    public function getList(ServerRequestInterface $request, ResponseInterface $response, callable $out = null)
+    public function getList(Request $request, Response $response, callable $out = null)
     {
-        $list = $this->studentRepository->fetchAll();
-
-        return $this->createResponse(['students' => $list]);
+        $student = $this->repository->fetchAll();
+        return $this->createResponse(['students' => $student->toArray()]);
     }
 }

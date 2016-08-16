@@ -26,31 +26,39 @@
 
 namespace CodingMatters\Student\Entity;
 
-final class StudentEntity implements StudentPrototype
-{
-    private $firstName;
-    private $middleName;
-    private $lastName;
+use CodingMatters\Rest\Entity\PersonInterface;
 
-    public function __construct(string $firstName = '', string $middleName = '', string $lastName = '')
-    {
-        $this->firstName    = $firstName;
-        $this->middleName   = $middleName;
-        $this->lastName     = $lastName;
+final class StudentEntity implements PersonInterface
+{
+    private $student_id;
+    private $first_name;
+    private $middle_name;
+    private $last_name;
+
+    public function __construct(
+        string $student_id  = '',
+        string $firstName   = '',
+        string $middleName  = '',
+        string $lastName    = ''
+    ) {
+        $this->student_id       = $student_id;
+        $this->first_name       = $firstName;
+        $this->middle_name      = $middleName;
+        $this->last_name        = $lastName;
     }
 
     public function getFirstName()
     {
-        return $this->firstName;
+        return $this->first_name;
     }
 
     public function getMiddleName()
     {
-        return $this->middleName();
+        return $this->middle_name;
     }
 
     public function getLastName()
     {
-        return $this->lastName();
+        return $this->last_name;
     }
 }

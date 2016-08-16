@@ -48,11 +48,9 @@ final class ConfigProvider
     {
         return [
             'invokables'    => [],
-            'factories'     => [
-                Repository\MasterListRepository::class  => Factory\Repository\MasterListRepositoryFactory::class,
-                Repository\AlumniListRepository::class  => Factory\Repository\AlumniListRepositoryFactory::class,
-
+            'factories'     => [              
                 Controller\MasterListController::class  => Factory\Controller\MasterListControllerFactory::class,
+                Repository\MasterListRepository::class  => Factory\Repository\MasterListRepositoryFactory::class,
             ],
             'delegator'     => []
         ];
@@ -66,7 +64,7 @@ final class ConfigProvider
                 'path'          => '/students[/:uuid]',
                 'options'       => [
                     'constraints' => [
-                        'uuid' => '[0-9]{4}',
+                        'uuid' => '[a-zA-Z0-9_-]*',
                     ]
                 ],
                 'middleware'    => [
