@@ -37,10 +37,9 @@ abstract class AbstractRestController implements MiddlewareInterface
 
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response, callable $out = null)
     {
-        $requestMethod = strtoupper($request->getMethod());
         $id = $request->getAttribute(static::IDENTIFIER_NAME);
 
-        switch ($requestMethod) {
+        switch (strtoupper($request->getMethod())) {
             case 'GET':
                 return isset($id)
                     ? $this->get($request, $response, $out)
@@ -109,7 +108,7 @@ abstract class AbstractRestController implements MiddlewareInterface
         return $this->createResponse(['content' => 'Method not allowed'], 405);
     }
 
-    final protected function createResponse($data, $status = 200)
+    final protected function createResponse(array $data, $status = 200)
     {
         return new JsonResponse($data, $status);
     }
