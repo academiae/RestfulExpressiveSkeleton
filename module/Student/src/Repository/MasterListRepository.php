@@ -29,10 +29,11 @@ namespace CodingMatters\Student\Repository;
 use CodingMatters\Rest\Repository\ListRepositoryInterface;
 use CodingMatters\Student\Entity\StudentEntity;
 use Zend\Db\Adapter\AdapterInterface;
-use Zend\Db\Sql\Sql;
 use Zend\Db\Adapter\Driver\ResultInterface;
 use Zend\Hydrator\HydratorInterface;
 use Zend\Db\ResultSet\HydratingResultSet;
+use Zend\Db\Sql\Sql;
+use Zend\Db\Sql\Insert;
 
 final class MasterListRepository implements ListRepositoryInterface
 {
@@ -86,6 +87,28 @@ final class MasterListRepository implements ListRepositoryInterface
         $result    = $statement->execute();
 
         return $this->initializeResult($result);
+    }
+    
+    public function enlist(array $data)
+    {
+        $insert = new Insert('students');
+        $insert->values($data);        
+        $sql = new Sql($this->dbAdapter);
+        $statement = $sql->prepareStatementForSqlObject($insert);
+        $result = $statement->execute();        
+       
+        if (! $result instanceof ResultInterface) {
+            throw new RuntimeException('Database error occurred during insert operation');
+        }
+        
+        $id = $result->getGeneratedValue();
+        
+        return new StudentEntity(
+            $data['student_id'],
+            $data['first_name'],
+            $data['middle_name'],
+            $data['last_name']
+        );
     }
 
     /**

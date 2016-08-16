@@ -30,7 +30,7 @@ use CodingMatters\Student\Repository\MasterListRepository;
 use CodingMatters\Rest\Controller\AbstractRestController;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
-use Zend\Diactoros\Response\JsonResponse;
+use CodingMatters\Student\Entity\StudentEntity;
 
 final class MasterListController extends AbstractRestController
 {
@@ -79,5 +79,23 @@ final class MasterListController extends AbstractRestController
     {
         $student = $this->repository->fetchAll();
         return $this->createResponse(['students' => $student->toArray()]);
+    }
+
+    public function create(Request $request, Response $response, callable $out = null)
+    {
+        $data = $request->getParsedBody();
+        $output = $this->repository->enlist($data);
+
+        // Throw error message if id is missing
+        $status         = 200;
+        $success        = 'OK';
+        $message        = sprintf("Student with id '%s' is successfuly added.", $data['student_id']);
+        $data = [
+            'success'   => $this->responsePhraseToCode($success),
+            'message'   => $message,
+            'status'    => $status
+        ];
+
+        return $this->createResponse($data, $status);
     }
 }
