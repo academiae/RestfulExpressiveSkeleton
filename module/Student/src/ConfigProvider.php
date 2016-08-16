@@ -26,6 +26,8 @@
 
 namespace CodingMatters\Student;
 
+use Zend\Expressive\Helper\BodyParams\BodyParamsMiddleware;
+
 /**
  * Zend Expressive Config Provider
  */
@@ -47,7 +49,9 @@ final class ConfigProvider
     public function getServiceConfig()
     {
         return [
-            'invokables'    => [],
+            'invokables'    => [
+                BodyParamsMiddleware::class => BodyParamsMiddleware::class,
+            ],
             'factories'     => [
                 Controller\MasterListController::class  => Factory\Controller\MasterListControllerFactory::class,
                 Repository\MasterListRepository::class  => Factory\Repository\MasterListRepositoryFactory::class,
@@ -68,6 +72,7 @@ final class ConfigProvider
                     ]
                 ],
                 'middleware'    => [
+                    BodyParamsMiddleware::class,
                     Controller\MasterListController::class
                 ]
             ]
