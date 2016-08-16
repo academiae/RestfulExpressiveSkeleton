@@ -48,7 +48,7 @@ final class ConfigProvider
     {
         return [
             'invokables'    => [],
-            'factories'     => [              
+            'factories'     => [
                 Controller\MasterListController::class  => Factory\Controller\MasterListControllerFactory::class,
                 Repository\MasterListRepository::class  => Factory\Repository\MasterListRepositoryFactory::class,
             ],

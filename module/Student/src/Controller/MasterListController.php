@@ -48,25 +48,21 @@ final class MasterListController extends AbstractRestController
     }
 
     /**
-     *
-     * @param ServerRequestInterface $request
-     * @param ResponseInterface $response
-     * @param callable $out
-     * @return JsonResponse
+     * {@inheritDoc}
      */
     public function get(Request $request, Response $response, callable $out = null)
     {
         $id = $request->getAttribute(self::IDENTIFIER_NAME);
-        $student = $this->repository->fetchById($id);        
+        $student = $this->repository->fetchById($id);
 
         if ($student->count() > 0) {
             return $this->createResponse($student->toArray());
         }
-        
+
         // Throw error message if id is missing
         $status         = 404;
-        $notFound       = 'Not Found';        
-        $error_message  = sprintf("Student with id '%s' {$notFound}.",$id);
+        $notFound       = 'Not Found';
+        $error_message  = sprintf("Student with id '%s' {$notFound}.", $id);
         $data = [
             'error'     => $this->responsePhraseToCode($notFound),
             'message'   => $error_message,

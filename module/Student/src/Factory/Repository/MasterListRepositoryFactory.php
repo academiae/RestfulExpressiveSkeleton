@@ -42,9 +42,9 @@ final class MasterListRepositoryFactory implements FactoryInterface
      */
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
-        $adapter = $container->get('student-record');   
+        $adapter = $container->get('student-record');
         $hydrator =  new ReflectionHydrator();
-        $prototype = new StudentEntity();        
+        $prototype = new StudentEntity();
 
         return new MasterListRepository($adapter, $hydrator, $prototype);
     }

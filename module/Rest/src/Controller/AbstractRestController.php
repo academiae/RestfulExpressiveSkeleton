@@ -36,7 +36,7 @@ abstract class AbstractRestController implements MiddlewareInterface
     const IDENTIFIER_NAME = 'uuid';
 
     /**
-     * 
+     *
      * @param Request $request
      * @param Response $response
      * @param callable $out
@@ -71,7 +71,7 @@ abstract class AbstractRestController implements MiddlewareInterface
     }
 
     /**
-     * 
+     *
      * @param Request $request
      * @param Response $response
      * @param callable $out
@@ -83,7 +83,7 @@ abstract class AbstractRestController implements MiddlewareInterface
     }
 
     /**
-     * 
+     *
      * @param Request $request
      * @param Response $response
      * @param callable $out
@@ -95,7 +95,7 @@ abstract class AbstractRestController implements MiddlewareInterface
     }
 
     /**
-     * 
+     *
      * @param Request $request
      * @param Response $response
      * @param callable $out
@@ -107,7 +107,7 @@ abstract class AbstractRestController implements MiddlewareInterface
     }
 
     /**
-     * 
+     *
      * @param Request $request
      * @param Response $response
      * @param callable $out
@@ -119,7 +119,7 @@ abstract class AbstractRestController implements MiddlewareInterface
     }
 
     /**
-     * 
+     *
      * @param Request $request
      * @param Response $response
      * @param callable $out
@@ -131,7 +131,7 @@ abstract class AbstractRestController implements MiddlewareInterface
     }
 
     /**
-     * 
+     *
      * @param Request $request
      * @param Response $response
      * @param callable $out
@@ -143,7 +143,7 @@ abstract class AbstractRestController implements MiddlewareInterface
     }
 
     /**
-     * 
+     *
      * @param Request $request
      * @param Response $response
      * @param callable $out
@@ -155,7 +155,7 @@ abstract class AbstractRestController implements MiddlewareInterface
     }
 
     /**
-     * 
+     *
      * @param Request $request
      * @param Response $response
      * @param callable $out
@@ -167,7 +167,7 @@ abstract class AbstractRestController implements MiddlewareInterface
     }
 
     /**
-     * 
+     *
      * @param Request $request
      * @param Response $response
      * @param callable $out
@@ -180,7 +180,7 @@ abstract class AbstractRestController implements MiddlewareInterface
 
     /**
      * Composes the response to a Json formated data
-     * 
+     *
      * @param array $data
      * @param integer $status
      * @return JsonResponse
@@ -189,9 +189,9 @@ abstract class AbstractRestController implements MiddlewareInterface
     {
         return new JsonResponse($data, $status);
     }
-    
+
     /**
-     * 
+     *
      * @param string $responsePhrase
      * @return string
      */

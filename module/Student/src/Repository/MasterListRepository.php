@@ -79,10 +79,10 @@ final class MasterListRepository implements ListRepositoryInterface
         $select->where(['student_id = ?' => $id]);
         $statement = $sql->prepareStatementForSqlObject($select);
         $result    = $statement->execute();
-        
+
         return $this->initializeResult($result);
     }
-    
+
     protected function initializeResult(ResultInterface $result)
     {
         $resultSet = new HydratingResultSet($this->hydrator, $this->prototype);

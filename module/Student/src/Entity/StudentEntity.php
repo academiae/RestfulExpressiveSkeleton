@@ -36,10 +36,10 @@ final class StudentEntity implements PersonInterface
     private $last_name;
 
     public function __construct(
-        string $student_id  = '',
-        string $firstName   = '',
-        string $middleName  = '',
-        string $lastName    = ''
+        string $student_id = '',
+        string $firstName = '',
+        string $middleName = '',
+        string $lastName = ''
     ) {
         $this->student_id       = $student_id;
         $this->first_name       = $firstName;
