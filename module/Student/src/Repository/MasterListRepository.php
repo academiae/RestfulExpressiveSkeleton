@@ -42,12 +42,12 @@ final class MasterListRepository implements ListRepositoryInterface
     private $prototype;
 
     /**
-     * @var AdapterInterface 
+     * @var AdapterInterface
      */
     private $dbAdapter;
 
     /**
-     * @var HydratorInterface 
+     * @var HydratorInterface
      */
     private $hydrator;
 
@@ -89,7 +89,7 @@ final class MasterListRepository implements ListRepositoryInterface
     }
 
     /**
-     * 
+     *
      * @param ResultInterface $result
      * @return HydratingResultSet
      */
