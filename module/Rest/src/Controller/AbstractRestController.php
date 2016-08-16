@@ -35,6 +35,13 @@ abstract class AbstractRestController implements MiddlewareInterface
 {
     const IDENTIFIER_NAME = 'uuid';
 
+    /**
+     * 
+     * @param Request $request
+     * @param Response $response
+     * @param callable $out
+     * @return JsonResponse | Response
+     */
     public function __invoke(Request $request, Response $response, callable $out = null)
     {
         $id = $request->getAttribute(static::IDENTIFIER_NAME);
@@ -63,57 +70,132 @@ abstract class AbstractRestController implements MiddlewareInterface
         }
     }
 
+    /**
+     * 
+     * @param Request $request
+     * @param Response $response
+     * @param callable $out
+     * @return JsonResponse
+     */
     public function get(Request $request, Response $response, callable $out = null)
     {
         return $this->createResponse(['content' => 'Method not allowed'], 405);
     }
 
+    /**
+     * 
+     * @param Request $request
+     * @param Response $response
+     * @param callable $out
+     * @return JsonResponse
+     */
     public function getList(Request $request, Response $response, callable $out = null)
     {
         return $this->createResponse(['content' => 'Method not allowed'], 405);
     }
 
+    /**
+     * 
+     * @param Request $request
+     * @param Response $response
+     * @param callable $out
+     * @return JsonResponse
+     */
     public function create(Request $request, Response $response, callable $out = null)
     {
         return $this->createResponse(['content' => 'Method not allowed'], 405);
     }
 
+    /**
+     * 
+     * @param Request $request
+     * @param Response $response
+     * @param callable $out
+     * @return JsonResponse
+     */
     public function update(Request $request, Response $response, callable $out = null)
     {
         return $this->createResponse(['content' => 'Method not allowed'], 405);
     }
 
+    /**
+     * 
+     * @param Request $request
+     * @param Response $response
+     * @param callable $out
+     * @return JsonResponse
+     */
     public function delete(Request $request, Response $response, callable $out = null)
     {
         return $this->createResponse(['content' => 'Method not allowed'], 405);
     }
 
+    /**
+     * 
+     * @param Request $request
+     * @param Response $response
+     * @param callable $out
+     * @return JsonResponse
+     */
     public function deleteList(Request $request, Response $response, callable $out = null)
     {
         return $this->createResponse(['content' => 'Method not allowed'], 405);
     }
 
+    /**
+     * 
+     * @param Request $request
+     * @param Response $response
+     * @param callable $out
+     * @return JsonResponse
+     */
     public function head(Request $request, Response $response, callable $out = null)
     {
         return $this->createResponse(['content' => 'Method not allowed'], 405);
     }
 
+    /**
+     * 
+     * @param Request $request
+     * @param Response $response
+     * @param callable $out
+     * @return JsonResponse
+     */
     public function options(Request $request, Response $response, callable $out = null)
     {
         return $this->createResponse(['content' => 'Method not allowed'], 405);
     }
 
+    /**
+     * 
+     * @param Request $request
+     * @param Response $response
+     * @param callable $out
+     * @return JsonResponse
+     */
     public function patch(Request $request, Response $response, callable $out = null)
     {
         return $this->createResponse(['content' => 'Method not allowed'], 405);
     }
 
-    final protected function createResponse(array $data, $status = 200)
+    /**
+     * Composes the response to a Json formated data
+     * 
+     * @param array $data
+     * @param integer $status
+     * @return JsonResponse
+     */
+    final protected function createResponse(array $data, int $status = 200)
     {
         return new JsonResponse($data, $status);
     }
     
-    final protected function responsePhraseToCode($responsePhrase)
+    /**
+     * 
+     * @param string $responsePhrase
+     * @return string
+     */
+    final protected function responsePhraseToCode(string $responsePhrase)
     {
         return strtoupper(str_replace(' ', '_', $responsePhrase));
     }
