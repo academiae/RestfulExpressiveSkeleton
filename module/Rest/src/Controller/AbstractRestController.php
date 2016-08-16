@@ -35,12 +35,18 @@ abstract class AbstractRestController implements MiddlewareInterface
 {
     const IDENTIFIER_NAME = 'uuid';
 
-    public function __invoke(ServerRequestInterface $request, ResponseInterface $response, callable $out = null)
+    /**
+     *
+     * @param Request $request
+     * @param Response $response
+     * @param callable $out
+     * @return JsonResponse | Response
+     */
+    public function __invoke(Request $request, Response $response, callable $out = null)
     {
-        $requestMethod = strtoupper($request->getMethod());
         $id = $request->getAttribute(static::IDENTIFIER_NAME);
 
-        switch ($requestMethod) {
+        switch (strtoupper($request->getMethod())) {
             case 'GET':
                 return isset($id)
                     ? $this->get($request, $response, $out)
@@ -61,56 +67,136 @@ abstract class AbstractRestController implements MiddlewareInterface
                 return $this->patch($request, $response, $out);
             default:
                 return $out($request, $response);
-        };
+        }
     }
 
-    public function get(ServerRequestInterface $request, ResponseInterface $response, callable $out = null)
+    /**
+     *
+     * @param Request $request
+     * @param Response $response
+     * @param callable $out
+     * @return JsonResponse
+     */
+    public function get(Request $request, Response $response, callable $out = null)
     {
         return $this->createResponse(['content' => 'Method not allowed'], 405);
     }
 
-    public function getList(ServerRequestInterface $request, ResponseInterface $response, callable $out = null)
+    /**
+     *
+     * @param Request $request
+     * @param Response $response
+     * @param callable $out
+     * @return JsonResponse
+     */
+    public function getList(Request $request, Response $response, callable $out = null)
     {
         return $this->createResponse(['content' => 'Method not allowed'], 405);
     }
 
-    public function create(ServerRequestInterface $request, ResponseInterface $response, callable $out = null)
+    /**
+     *
+     * @param Request $request
+     * @param Response $response
+     * @param callable $out
+     * @return JsonResponse
+     */
+    public function create(Request $request, Response $response, callable $out = null)
     {
         return $this->createResponse(['content' => 'Method not allowed'], 405);
     }
 
-    public function update(ServerRequestInterface $request, ResponseInterface $response, callable $out = null)
+    /**
+     *
+     * @param Request $request
+     * @param Response $response
+     * @param callable $out
+     * @return JsonResponse
+     */
+    public function update(Request $request, Response $response, callable $out = null)
     {
         return $this->createResponse(['content' => 'Method not allowed'], 405);
     }
 
-    public function delete(ServerRequestInterface $request, ResponseInterface $response, callable $out = null)
+    /**
+     *
+     * @param Request $request
+     * @param Response $response
+     * @param callable $out
+     * @return JsonResponse
+     */
+    public function delete(Request $request, Response $response, callable $out = null)
     {
         return $this->createResponse(['content' => 'Method not allowed'], 405);
     }
 
-    public function deleteList(ServerRequestInterface $request, ResponseInterface $response, callable $out = null)
+    /**
+     *
+     * @param Request $request
+     * @param Response $response
+     * @param callable $out
+     * @return JsonResponse
+     */
+    public function deleteList(Request $request, Response $response, callable $out = null)
     {
         return $this->createResponse(['content' => 'Method not allowed'], 405);
     }
 
-    public function head(ServerRequestInterface $request, ResponseInterface $response, callable $out = null)
+    /**
+     *
+     * @param Request $request
+     * @param Response $response
+     * @param callable $out
+     * @return JsonResponse
+     */
+    public function head(Request $request, Response $response, callable $out = null)
     {
         return $this->createResponse(['content' => 'Method not allowed'], 405);
     }
 
-    public function options(ServerRequestInterface $request, ResponseInterface $response, callable $out = null)
+    /**
+     *
+     * @param Request $request
+     * @param Response $response
+     * @param callable $out
+     * @return JsonResponse
+     */
+    public function options(Request $request, Response $response, callable $out = null)
     {
         return $this->createResponse(['content' => 'Method not allowed'], 405);
     }
 
-    public function patch(ServerRequestInterface $request, ResponseInterface $response, callable $out = null)
+    /**
+     *
+     * @param Request $request
+     * @param Response $response
+     * @param callable $out
+     * @return JsonResponse
+     */
+    public function patch(Request $request, Response $response, callable $out = null)
     {
         return $this->createResponse(['content' => 'Method not allowed'], 405);
     }
 
-    final protected function createResponse($data, $status = 200)
+    /**
+     * Composes the response to a Json formated data
+     *
+     * @param array $data
+     * @param integer $status
+     * @return JsonResponse
+     */
+    final protected function createResponse(array $data, int $status = 200)
     {
         return new JsonResponse($data, $status);
+    }
+
+    /**
+     *
+     * @param string $responsePhrase
+     * @return string
+     */
+    final protected function responsePhraseToCode(string $responsePhrase)
+    {
+        return strtoupper(str_replace(' ', '_', $responsePhrase));
     }
 }
