@@ -4,12 +4,12 @@ CREATE TABLE IF NOT EXISTS students (
     first_name VARCHAR(40) NOT NULL,
     middle_name VARCHAR(40) NOT NULL,
     last_name VARCHAR(40) NOT NULL,
-    token UUID NOT NULL UNIQUE,
+    token UUID NOT NULL DEFAULT gen_random_uuid(),
     is_active BOOLEAN DEFAULT FALSE,
     UNIQUE (first_name, middle_name, last_name)
 );
 
-INSERT INTO students IF NOT EXISTS (student_id, first_name, middle_name, last_name, token) VALUES
+INSERT INTO students (student_id, first_name, middle_name, last_name, token) VALUES
     ('2009-00001', 'Warren', 'L', 'Acain', gen_random_uuid()),
     ('2009-00002', 'Monaifa', 'A', 'Amindato', gen_random_uuid()),
     ('2009-00003', 'Josephine Sharon', 'L', 'Baguio', gen_random_uuid()),
