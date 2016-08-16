@@ -60,7 +60,7 @@ final class MasterListController extends AbstractRestController
         $student = $this->repository->fetchById($id);        
 
         if ($student->count() > 0) {
-            return $this->createResponse(['student' => $student->toArray()]);
+            return $this->createResponse($student->toArray());
         }
         
         // Throw error message if id is missing
