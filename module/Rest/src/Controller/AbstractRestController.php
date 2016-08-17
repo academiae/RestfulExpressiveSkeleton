@@ -40,7 +40,7 @@ abstract class AbstractRestController implements MiddlewareInterface
      * @param Request $request
      * @param Response $response
      * @param callable $out
-     * @return JsonResponse | Response
+     * @return JsonResponse
      */
     public function __invoke(Request $request, Response $response, callable $out = null)
     {
@@ -182,12 +182,12 @@ abstract class AbstractRestController implements MiddlewareInterface
      * Composes the response to a Json formated data
      *
      * @param array $data
-     * @param integer $status
+     * @param integer $code
      * @return JsonResponse
      */
-    final protected function createResponse(array $data, int $status = 200)
+    final protected function createResponse(array $data, int $code = 200)
     {
-        return new JsonResponse($data, $status);
+        return new JsonResponse($data, $code);
     }
 
     /**
@@ -198,5 +198,22 @@ abstract class AbstractRestController implements MiddlewareInterface
     final protected function responsePhraseToCode(string $responsePhrase)
     {
         return strtoupper(str_replace(' ', '_', $responsePhrase));
+    }
+
+    /**
+     * Response message format.
+     *
+     * @param int $code
+     * @param string $status
+     * @param string $message
+     * @return array
+     */
+    final protected function formatMessage(int $code, string $status, string $message)
+    {
+        return [
+            'code'      => $code,
+            'status'    => $this->responsePhraseToCode($status),
+            'message'   => $message
+        ];
     }
 }
