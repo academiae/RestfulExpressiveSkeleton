@@ -31,6 +31,8 @@ use CodingMatters\Rest\Entity\EntityPrototype;
 use Zend\Db\ResultSet\HydratingResultSet;
 use Zend\Db\Sql\Select;
 use Zend\Db\Sql\Insert;
+use Zend\Db\Sql\Update;
+use Zend\Db\Sql\Delete;
 use Psr\Log\InvalidArgumentException;
 
 abstract class AbstractRestService
@@ -67,7 +69,6 @@ abstract class AbstractRestService
 
     public function fetchAll()
     {
-
         if (!isset($this->table)) {
             throw new InvalidArgumentException('Table schema not set.');
         }
@@ -107,7 +108,27 @@ abstract class AbstractRestService
 
     public function update(EntityPrototype $entity)
     {
-        var_dump($entity);
+        if (!isset($this->primary_key)) {
+            throw new InvalidArgumentException('Primary key not set.');
+        }
+
+        $sqlObject = new Update($this->table);
+        $sqlObject->set($entity->toArray());
+        $sqlObject->where(["{$this->primary_key} = ?" => $entity->getId()]);
+
+        return $this->mapper->update($sqlObject);
+    }
+
+    public function delete(EntityPrototype $entity)
+    {
+        if (!isset($this->primary_key)) {
+            throw new InvalidArgumentException('Primary key not set.');
+        }
+
+        $sqlObject = new Delete($this->table);        
+        $sqlObject->where(["{$this->primary_key} = ?" => $entity->getId()]);
+
+        return $this->mapper->delete($sqlObject);
     }
 
     protected function selectData(Select $sqlObject)
