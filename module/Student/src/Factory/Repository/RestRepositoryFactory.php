@@ -24,21 +24,33 @@
  * THE SOFTWARE.
  */
 
-namespace CodingMatters\Rest\Entity;
+namespace CodingMatters\Student\Factory\Repository;
 
-interface EntityPrototype
+use CodingMatters\Student\Repository\RestRepository;
+use CodingMatters\Student\Entity\StudentEntity;
+use Zend\ServiceManager\Factory\FactoryInterface;
+use Zend\Hydrator\Reflection as ReflectionHydrator;
+use Interop\Container\ContainerInterface;
+
+use CodingMatters\Rest\Mapper\Database\ZendDbMapper;
+use Zend\Db\ResultSet\HydratingResultSet;
+use Zend\Db\Sql\Sql;
+
+final class RestRepositoryFactory implements FactoryInterface
 {
     /**
-     * Get Primary Key ID
-     *
-     * @return string
+     * @param ContainerInterface $container
+     * @param string $requestedName
+     * @param array $options
+     * @return MasterListRepository
      */
-    public function getId();
-
-    /**
-     * Convert to Array
-     *
-     * @return array
-     */
-    public function toArray();
+    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
+    {
+        $sql        = new Sql($container->get('student-record'));
+        $mapper     = new ZendDbMapper($sql);
+        $hydrator   = new ReflectionHydrator();
+        $prototype  = new StudentEntity();
+        $resultSet  = new HydratingResultSet($hydrator, $prototype);
+        return new RestRepository($mapper, $resultSet);
+    }
 }

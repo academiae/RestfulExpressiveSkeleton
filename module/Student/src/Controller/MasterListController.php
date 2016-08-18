@@ -26,23 +26,23 @@
 
 namespace CodingMatters\Student\Controller;
 
-use CodingMatters\Student\Repository\MasterListRepository;
+//use CodingMatters\Student\Repository\MasterListRepository;
+use CodingMatters\Student\Repository\RestRepository;
 use CodingMatters\Rest\Controller\AbstractRestController;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
-use CodingMatters\Student\Entity\StudentEntity;
 
 final class MasterListController extends AbstractRestController
 {
     /**
-     * @var MasterListRepository
+     * @var RestRepository
      */
     private $repository;
 
     /**
-     * @param MasterListRepository $repository
+     * @param RestRepository $repository
      */
-    public function __construct(MasterListRepository $repository)
+    public function __construct(RestRepository $repository)
     {
         $this->repository = $repository;
     }
@@ -55,21 +55,17 @@ final class MasterListController extends AbstractRestController
         $id = $request->getAttribute(self::IDENTIFIER_NAME);
         $student = $this->repository->fetchById($id);
 
-        if ($student->count() > 0) {
-            return $this->createResponse($student->toArray());
+        // Return error message if data is missing
+        if ($student->count() === 0) {
+            $code       = 404;
+            $status     = 'Not Found';
+            $message    = sprintf("Student with id '%s' not found.", $id);
+
+            return $this->createResponse($this->formatMessage($code, $status, $message), $code);
         }
 
-        // Throw error message if id is missing
-        $status         = 404;
-        $notFound       = 'Not Found';
-        $error_message  = sprintf("Student with id '%s' {$notFound}.", $id);
-        $data = [
-            'error'     => $this->responsePhraseToCode($notFound),
-            'message'   => $error_message,
-            'status'    => $status
-        ];
-
-        return $this->createResponse($data, $status);
+        // Else return $object->toArray()
+        return $this->createResponse($student->toArray());
     }
 
     /**
@@ -81,21 +77,83 @@ final class MasterListController extends AbstractRestController
         return $this->createResponse(['students' => $student->toArray()]);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function create(Request $request, Response $response, callable $out = null)
     {
         $data = $request->getParsedBody();
-        $output = $this->repository->enlist($data);
 
-        // Throw error message if id is missing
-        $status         = 200;
-        $success        = 'OK';
-        $message        = sprintf("Student with id '%s' is successfuly added.", $data['student_id']);
-        $data = [
-            'success'   => $this->responsePhraseToCode($success),
-            'message'   => $message,
-            'status'    => $status
-        ];
+        try {
+            $output = $this->repository->enlist($data);
 
-        return $this->createResponse($data, $status);
+            $code   = 200;
+            $status = 'OK';
+            $message = sprintf("Student with id '%s' is successfully added.", $data['student_id']);
+        } catch (\Exception $ex) {
+            $code = 403;
+            $status = 'Forbidden';
+            $message = sprintf("Student with id '%s' has existing record.", $data['student_id']);
+        }
+
+        return $this->createResponse($this->formatMessage($code, $status, $message), $code);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function update(Request $request, Response $response, callable $out = null)
+    {
+        // Initialized request data
+        $id = $request->getAttribute(self::IDENTIFIER_NAME);
+        $data = $request->getParsedBody();
+
+        $result = $this->repository->fetchById($id);
+
+        if ($result->count() > 0) {
+            $hydrator   = $result->getHydrator();
+            $object     = $result->current();
+
+            // Update the current entity data
+            $hydrator->hydrate($data, $object);
+
+            $result = $this->repository->update($object);
+            
+            $code   = 200;
+            $status = 'OK';
+            $message = sprintf("Student with id '%s' is successfully updated.", $data['student_id']);
+        } else {
+            $code   = 404;
+            $status = 'Not Found';
+            $message = sprintf("Student with id '%s' is not a valid record.", $data['student_id']);
+        }
+
+        return $this->createResponse($this->formatMessage($code, $status, $message), $code);
+    }
+
+    /**
+     * 
+     * @param Request $request
+     * @param Response $response
+     * @param callable $out
+     */
+    public function delete(Request $request, Response $response, callable $out = null)
+    {
+        $id = $request->getAttribute(self::IDENTIFIER_NAME);
+        $result = $this->repository->fetchById($id);
+        
+        if ($result->count() > 0) {
+            
+            $this->repository->delete($result->current());            
+            $code   = 200;
+            $status = 'OK';
+            $message = sprintf("Student with id '%s' is successfully removed.", $id);
+        } else {
+            $code   = 404;
+            $status = 'Not Found';
+            $message = sprintf("Student with id '%s' is not a valid record.", $id);
+        }
+        
+        return $this->createResponse($this->formatMessage($code, $status, $message), $code);
     }
 }

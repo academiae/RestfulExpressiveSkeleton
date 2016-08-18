@@ -24,21 +24,45 @@
  * THE SOFTWARE.
  */
 
-namespace CodingMatters\Rest\Entity;
+namespace CodingMatters\Rest\Mapper\Database;
 
-interface EntityPrototype
+use Zend\Db\Sql\Insert;
+use Zend\Db\Sql\Select;
+use Zend\Db\Sql\Update;
+use Zend\Db\Sql\Delete;
+
+interface DatabaseMapperInterface
 {
     /**
-     * Get Primary Key ID
      *
-     * @return string
+     *
+     * @param Select $sqlObject
+     * @param AbstractResultSet $result
+     * @return Zend\Db\Adapter\Driver\Pdo\Result
      */
-    public function getId();
+    public function select(Select $sqlObject);
 
     /**
-     * Convert to Array
      *
-     * @return array
+     *
+     * @param Insert $query
+     * @return Zend\Db\Adapter\Driver\Pdo\Result
      */
-    public function toArray();
+    public function insert(Insert $sqlObject);
+
+    /**
+     *
+     *
+     * @param Update $sqlObject
+     * @return Zend\Db\Adapter\Driver\Pdo\Result
+     */
+    public function update(Update $sqlObject);
+
+    /**
+     *
+     *
+     * @param Delete $sqlObject
+     * @return Zend\Db\Adapter\Driver\Pdo\Result
+     */
+    public function delete(Delete $sqlObject);
 }

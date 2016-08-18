@@ -30,11 +30,13 @@ use Zend\ServiceManager\Factory\FactoryInterface;
 use Interop\Container\ContainerInterface;
 use CodingMatters\Student\Controller\MasterListController;
 use CodingMatters\Student\Repository\MasterListRepository;
+use CodingMatters\Student\Repository\RestRepository;
 
 final class MasterListControllerFactory implements FactoryInterface
 {
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
-        return new MasterListController($container->build(MasterListRepository::class));
+        return new MasterListController($container->get(RestRepository::class));
+//        return new MasterListController($container->build(MasterListRepository::class));
     }
 }

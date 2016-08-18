@@ -24,21 +24,36 @@
  * THE SOFTWARE.
  */
 
-namespace CodingMatters\Rest\Entity;
+namespace CodingMatters\Rest\Attribute;
 
-interface EntityPrototype
+trait PersonAttributes
 {
-    /**
-     * Get Primary Key ID
-     *
-     * @return string
-     */
-    public function getId();
+    private $student_id;
+    private $first_name;
+    private $middle_name;
+    private $last_name;
 
     /**
-     * Convert to Array
-     *
-     * @return array
+     * @return string $first_name
      */
-    public function toArray();
+    public function getFirstName()
+    {
+        return $this->first_name;
+    }
+
+    /**
+     * @return string $middle_name
+     */
+    public function getMiddleName()
+    {
+        return $this->middle_name;
+    }
+
+    /**
+     * @return string $last_name
+     */
+    public function getLastName()
+    {
+        return $this->last_name;
+    }
 }

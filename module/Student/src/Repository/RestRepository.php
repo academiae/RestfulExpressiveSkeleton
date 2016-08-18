@@ -24,21 +24,23 @@
  * THE SOFTWARE.
  */
 
-namespace CodingMatters\Rest\Entity;
+namespace CodingMatters\Student\Repository;
 
-interface EntityPrototype
+use CodingMatters\Rest\Mapper\Database\DatabaseMapperInterface;
+use CodingMatters\Rest\Service\AbstractRestService;
+use Zend\Db\ResultSet\HydratingResultSet;
+
+final class RestRepository extends AbstractRestService
 {
     /**
-     * Get Primary Key ID
      *
-     * @return string
+     * @param DatabaseMapperInterface $mapper
      */
-    public function getId();
-
-    /**
-     * Convert to Array
-     *
-     * @return array
-     */
-    public function toArray();
+    public function __construct(DatabaseMapperInterface $mapper, HydratingResultSet $resultSet)
+    {
+        $this->resultSet    = $resultSet;
+        $this->mapper       = $mapper;
+        $this->table        = 'students';
+        $this->primary_key  = 'student_id';
+    }
 }

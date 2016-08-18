@@ -55,6 +55,7 @@ final class ConfigProvider
             'factories'     => [
                 Controller\MasterListController::class  => Factory\Controller\MasterListControllerFactory::class,
                 Repository\MasterListRepository::class  => Factory\Repository\MasterListRepositoryFactory::class,
+                Repository\RestRepository::class        => Factory\Repository\RestRepositoryFactory::class,
             ],
             'delegator'     => []
         ];
