@@ -31,7 +31,6 @@ use CodingMatters\Student\Repository\RestRepository;
 use CodingMatters\Rest\Controller\AbstractRestController;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
-use CodingMatters\Student\Entity\StudentEntity;
 
 final class MasterListController extends AbstractRestController
 {
@@ -78,9 +77,12 @@ final class MasterListController extends AbstractRestController
         return $this->createResponse(['students' => $student->toArray()]);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function create(Request $request, Response $response, callable $out = null)
     {
-        $data   = $request->getParsedBody();
+        $data = $request->getParsedBody();
 
         try {
             $output = $this->repository->enlist($data);
@@ -97,25 +99,61 @@ final class MasterListController extends AbstractRestController
         return $this->createResponse($this->formatMessage($code, $status, $message), $code);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function update(Request $request, Response $response, callable $out = null)
     {
+        // Initialized request data
         $id = $request->getAttribute(self::IDENTIFIER_NAME);
         $data = $request->getParsedBody();
-        var_dump($data);
-        exit;
+
         $result = $this->repository->fetchById($id);
 
         if ($result->count() > 0) {
             $hydrator   = $result->getHydrator();
-            $object     = $$result->getObjectPrototype();
+            $object     = $result->current();
+
+            // Update the current entity data
             $hydrator->hydrate($data, $object);
-            var_dump($object);
-            exit;
-            $result = $this->repository->update($entity->current());
-            var_dump($request);
-            exit;
+
+            $result = $this->repository->update($object);
+            
+            $code   = 200;
+            $status = 'OK';
+            $message = sprintf("Student with id '%s' is successfully updated.", $data['student_id']);
+        } else {
+            $code   = 404;
+            $status = 'Not Found';
+            $message = sprintf("Student with id '%s' is not a valid record.", $data['student_id']);
         }
 
+        return $this->createResponse($this->formatMessage($code, $status, $message), $code);
+    }
+
+    /**
+     * 
+     * @param Request $request
+     * @param Response $response
+     * @param callable $out
+     */
+    public function delete(Request $request, Response $response, callable $out = null)
+    {
+        $id = $request->getAttribute(self::IDENTIFIER_NAME);
+        $result = $this->repository->fetchById($id);
+        
+        if ($result->count() > 0) {
+            
+            $this->repository->delete($result->current());            
+            $code   = 200;
+            $status = 'OK';
+            $message = sprintf("Student with id '%s' is successfully removed.", $id);
+        } else {
+            $code   = 404;
+            $status = 'Not Found';
+            $message = sprintf("Student with id '%s' is not a valid record.", $id);
+        }
+        
         return $this->createResponse($this->formatMessage($code, $status, $message), $code);
     }
 }
