@@ -28,5 +28,17 @@ namespace CodingMatters\Rest\Entity;
 
 interface EntityPrototype
 {
+    /**
+     * Get Primary Key ID
+     *
+     * @return string
+     */
+    public function getId();
 
+    /**
+     * Convert to Array
+     *
+     * @return array
+     */
+    public function toArray();
 }
