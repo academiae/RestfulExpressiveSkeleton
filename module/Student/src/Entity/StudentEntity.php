@@ -26,48 +26,33 @@
 
 namespace CodingMatters\Student\Entity;
 
-use CodingMatters\Rest\Entity\PersonInterface;
+use CodingMatters\Rest\Attribute\PersonAttributes;
+use CodingMatters\Rest\Entity\EntityPrototype;
 
-final class StudentEntity implements PersonInterface
+final class StudentEntity implements EntityPrototype
 {
-    private $student_id;
-    private $first_name;
-    private $middle_name;
-    private $last_name;
-
-    public function __construct(
-        string $student_id = '',
-        string $firstName = '',
-        string $middleName = '',
-        string $lastName = ''
-    ) {
-        $this->student_id       = $student_id;
-        $this->first_name       = $firstName;
-        $this->middle_name      = $middleName;
-        $this->last_name        = $lastName;
-    }
+    use PersonAttributes;
 
     /**
      * {@inheritDoc}
      */
-    public function getFirstName()
+    public function getId()
     {
-        return $this->first_name;
+        return $this->student_id;
     }
 
     /**
-     * {@inheritDoc}
+     * Convert to Array
+     *
+     * @return array
      */
-    public function getMiddleName()
+    public function toArray()
     {
-        return $this->middle_name;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getLastName()
-    {
-        return $this->last_name;
+        return [
+            'student_id'    => $this->getId(),
+            'first_name'    => $this->getFirstName(),
+            'middle_name'   => $this->getMiddleName(),
+            'last_name'     => $this->getLastName()
+        ];
     }
 }
